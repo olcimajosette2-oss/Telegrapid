@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="ht">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telepib</title>
-    <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #0e1621; color: white; margin: 0; padding: 0; }
@@ -24,15 +23,13 @@
     <div class="navbar">TELEPIB</div>
 
     <div class="container">
-        <!-- Zòn Enskripsyon -->
         <div class="card">
             <h3>Kreye Kont Ou</h3>
             <input type="email" id="email" class="input-box" placeholder="Imèl ou...">
-            <input type="password" id="password" class="input-box" placeholder="Mòdpa...">
+            <input type="password" id="password" class="input-box" placeholder="Mòdpa (6 karaktè min)...">
             <button class="btn" onclick="registerUser()">Rantre sou Telepib</button>
         </div>
 
-        <!-- Zòn Achte Etwal -->
         <div class="card">
             <h3>Solde Etwal ⭐</h3>
             <p>Etwal ou genyen: <b id="star-count">0 ⭐</b></p>
@@ -40,7 +37,6 @@
         </div>
     </div>
 
-    <!-- Modal pou Pèman Kripto -->
     <div class="modal" id="cryptoModal">
         <div class="modal-content">
             <h3>Peye ak USDT (TRC-20)</h3>
@@ -51,10 +47,10 @@
     </div>
 
     <script>
-        // Konfigirasyon Supabase
         const SUPABASE_URL = "https://qdewfohnfjnwtqfkhloq.supabase.co";
         const SUPABASE_KEY = "sb_publishable_SAO0a6x7ePvNwu_OWQwHjw_G8lgaO0c";
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function registerUser() {
             const email = document.getElementById('email').value;
@@ -65,12 +61,20 @@
                 return;
             }
 
-            const { user, error } = await supabase.auth.signUp({ email, password });
+            if(password.length < 6) {
+                alert("Mòdpa a dwe gen omwen 6 karaktè!");
+                return;
+            }
+
+            const { data, error } = await _supabase.auth.signUp({
+                email: email,
+                password: password,
+            });
 
             if (error) {
                 alert("Erè: " + error.message);
             } else {
-                alert("Enskripsyon reyisi! Tcheke imèl ou pou konfime.");
+                alert("Enskripsyon reyisi! Tcheke imèl ou oswa tounen sou Supabase pou w wè kont lan.");
             }
         }
 
@@ -80,9 +84,8 @@
 
         function closeModal() {
             document.getElementById('cryptoModal').style.display = 'none';
-            alert('Mèsi! Sistèm nan ap verifye tranzaksyon an sou Blockchain la.');
+            alert('Mèsi! Sistèm nan ap verifye tranzaksyon an.');
         }
     </script>
 </body>
 </html>
-
