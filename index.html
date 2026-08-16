@@ -21,9 +21,9 @@
 
   <div id="channelList"></div>
 
-  <script>
-    // Ranplase ak done Supabase ou (ou jwenn yo nan Project Settings > API)
-    const supabase = supabase.createClient('URL_PROJE_W_A', 'ANON_KEY_W_A');
+  const supabaseUrl = 'https://qdewfohnfjnwtqfkhloq.supabase.co';
+const supabaseKey = 'sb_publishable_0JJ8P0_IdypBVfaOwCLa7A_oPWMTZ82';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     async function fetchChannels() {
       const { data } = await supabase.from('channels').select('*');
