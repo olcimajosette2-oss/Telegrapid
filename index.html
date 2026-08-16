@@ -1,45 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="ht">
 <head>
-  <title>Telepib - Ajoute Chanèl</title>
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promotion Chanèl Telegram</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
-    form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-    .channel-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f2f5;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 380px;
+      text-align: center;
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #0088cc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0088cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #006699;
+    }
   </style>
 </head>
 <body>
-  <h1>Promotion Chanèl Telegram</h1>
-  
-  <form id="addForm">
-    <input type="text" id="title" placeholder="Non Chanèl" required>
-    <input type="url" id="link" placeholder="Lyen (https://t.me/...)" required>
-    <button type="submit">Ajoute Chanèl</button>
-  </form>
 
-  <div id="channelList"></div>
-<script>
-  const supabaseUrl = 'https://qdewfohnfjnwtqfkhloq.supabase.co';
-const supabaseKey = 'sb_publishable_0JJ8P0_IdypBVfaOwCLa7A_oPWMTZ82';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  <div class="card">
+    <h2>Promotion Chanèl Telegram</h2>
+    <form>
+      <input type="text" placeholder="Non Chanèl" required>
+      <input type="url" placeholder="Lyen (https://t.me/...)" required>
+      <button type="submit">Ajoute Chanèl</button>
+    </form>
+  </div>
 
-    async function fetchChannels() {
-      const { data } = await supabase.from('channels').select('*');
-      const list = document.getElementById('channelList');
-      list.innerHTML = data.map(c => `<div class="channel-card"><h3>${c.title}</h3><a href="${c.link}" target="_blank">Vizite</a></div>`).join('');
-    }
-
-    document.getElementById('addForm').onsubmit = async (e) => {
-      e.preventDefault();
-      const title = document.getElementById('title').value;
-      const link = document.getElementById('link').value;
-      await supabase.from('channels').insert([{ title, link }]);
-      fetchChannels();
-    };
-
-    fetchChannels();
-  </script>
 </body>
 </html>
