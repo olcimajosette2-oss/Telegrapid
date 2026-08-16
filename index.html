@@ -1,91 +1,45 @@
-!DOCTYPE html>
-<html lang="ht">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telepib</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #0e1621; color: white; margin: 0; padding: 0; }
-        .navbar { background-color: #17212b; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; color: #5288c1; border-bottom: 1px solid #242f3d; }
-        .container { padding: 15px; max-width: 500px; margin: auto; }
-        .card { background-color: #17212b; padding: 20px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #242f3d; }
-        .btn { background-color: #5288c1; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-crypto { background-color: #e5a93c; color: black; }
-        .input-box { width: 93%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #242f3d; background-color: #0e1621; color: white; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; }
-        .modal-content { background: #17212b; padding: 20px; border-radius: 10px; text-align: center; max-width: 300px; }
-        .wallet-addr { background: #0e1621; padding: 8px; border-radius: 5px; font-size: 12px; word-break: break-all; color: #e5a93c; }
-    </style>
+  <title>Telepib - Ajoute Chanèl</title>
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+    form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .channel-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+  </style>
 </head>
 <body>
+  <h1>Promotion Chanèl Telegram</h1>
+  
+  <form id="addForm">
+    <input type="text" id="title" placeholder="Non Chanèl" required>
+    <input type="url" id="link" placeholder="Lyen (https://t.me/...)" required>
+    <button type="submit">Ajoute Chanèl</button>
+  </form>
 
-    <div class="navbar">TELEPIB</div>
+  <div id="channelList"></div>
 
-    <div class="container">
-        <div class="card">
-            <h3>Kreye Kont Ou</h3>
-            <input type="email" id="email" class="input-box" placeholder="Imèl ou...">
-            <input type="password" id="password" class="input-box" placeholder="Mòdpa (6 karaktè min)...">
-            <button class="btn" onclick="registerUser()">Rantre sou Telepib</button>
-        </div>
+  <script>
+    // Ranplase ak done Supabase ou (ou jwenn yo nan Project Settings > API)
+    const supabase = supabase.createClient('URL_PROJE_W_A', 'ANON_KEY_W_A');
 
-        <div class="card">
-            <h3>Solde Etwal ⭐</h3>
-            <p>Etwal ou genyen: <b id="star-count">0 ⭐</b></p>
-            <button class="btn btn-crypto" onclick="openModal()">Achte Etwal ak Kripto (USDT)</button>
-        </div>
-    </div>
+    async function fetchChannels() {
+      const { data } = await supabase.from('channels').select('*');
+      const list = document.getElementById('channelList');
+      list.innerHTML = data.map(c => `<div class="channel-card"><h3>${c.title}</h3><a href="${c.link}" target="_blank">Vizite</a></div>`).join('');
+    }
 
-    <div class="modal" id="cryptoModal">
-        <div class="modal-content">
-            <h3>Peye ak USDT (TRC-20)</h3>
-            <p>Voye USDT sou adrès sa a pou w resevwa 100 Etwal ⭐ ($10 USDT):</p>
-            <p class="wallet-addr">TYdX849vKxM1234567890TelepibUSDTAddr</p>
-            <button class="btn" onclick="closeModal()">Mwen Fè Pèman An</button>
-        </div>
-    </div>
+    document.getElementById('addForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const link = document.getElementById('link').value;
+      await supabase.from('channels').insert([{ title, link }]);
+      fetchChannels();
+    };
 
-    <script>
-        const SUPABASE_URL = "https://qdewfohnfjnwtqfkhloq.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_SAO0a6x7ePvNwu_OWQwHjw_G8lgaO0c";
-        const { createClient } = supabase;
-        const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        async function registerUser() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            if(!email || !password) {
-                alert("Tanpri ranpli imèl ak mòdpa a!");
-                return;
-            }
-
-            if(password.length < 6) {
-                alert("Mòdpa a dwe gen omwen 6 karaktè!");
-                return;
-            }
-
-            const { data, error } = await _supabase.auth.signUp({
-                email: email,
-                password: password,
-            });
-
-            if (error) {
-                alert("Erè: " + error.message);
-            } else {
-                alert("Enskripsyon reyisi! Tcheke imèl ou oswa tounen sou Supabase pou w wè kont lan.");
-            }
-        }
-
-        function openModal() {
-            document.getElementById('cryptoModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('cryptoModal').style.display = 'none';
-            alert('Mèsi! Sistèm nan ap verifye tranzaksyon an.');
-        }
-    </script>
+    fetchChannels();
+  </script>
 </body>
 </html>
