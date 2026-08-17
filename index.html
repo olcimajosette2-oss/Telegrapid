@@ -1,168 +1,247 @@
 <!DOCTYPE html>
 <html lang="ht">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telegrapid - Annouyè Telegram</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card-bg: #1e293b;
-      --accent: #38bdf8;
-      --text: #f8fafc;
-      --subtext: #94a3b8;
-    }
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .container {
-      max-width: 600px;
-      width: 100%;
-    }
-    h1 {
-      text-align: center;
-      color: var(--accent);
-    }
-    form {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    input, select, button {
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #334155;
-      background: #0f172a;
-      color: var(--text);
-      font-size: 16px;
-    }
-    button {
-      background: var(--accent);
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-    }
-    button:hover {
-      opacity: 0.9;
-    }
-    .card {
-      background: var(--card-bg);
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .card a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .tag {
-      font-size: 12px;
-      background: #334155;
-      padding: 4px 8px;
-      border-radius: 4px;
-      color: var(--subtext);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasyon Mwen</title>
+    <style>
+        /* Estil de baz yo ap vini nan pwochen pati yo */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+    </style>
 </head>
 <body>
-
-  <div class="container">
-    <h1>Telegrapid</h1>
-
-    <!-- Formulaire pou ajoute chanèl -->
-    <form id="add-form">
-      <input type="text" id="title" placeholder="Non chanèl / gwoup la" required>
-      <input type="url" id="link" placeholder="Lyen Telegram (https://t.me/...)" required>
-      <select id="type">
-        <option value="Chanèl">Chanèl</option>
-        <option value="Gwoup">Gwoup</option>
-      </select>
-      <button type="submit" id="submit-btn">Achte/Aji Chanèl la</button>
-    </form>
-
-    <!-- Lis kote chanèl yo ap parèt -->
-    <div id="channels-list">Mape chaje chanèl yo...</div>
-  </div>
-
-  <script>
-    // Konfigirasyon Supabase
-    const SUPABASE_URL = 'https://xiirkprhkqcfmspvavsy.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_rGYu8noPCVHDpVrJ0RjSrA_JQwwMIj_';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const form = document.getElementById('add-form');
-    const channelsList = document.getElementById('channels-list');
-
-    // Fonksyon pou chaje tout chanèl yo nan baz de done an
-    async function fetchChannels() {
-      const { data, error } = await supabase
-        .from('channels')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        channelsList.innerHTML = '<p>Gen yon errè nan chaje done yo.</p>';
-        console.error(error);
-        return;
-      }
-
-      if (data.length === 0) {
-        channelsList.innerHTML = '<p style="text-align:center;">Poko gen okenn chanèl. Wa premye moun ki ajoute youn!</p>';
-        return;
-      }
-
-      channelsList.innerHTML = data.map(item => `
-        <div class="card">
-          <div>
-            <strong>${item.title}</strong>
-            <br>
-            <span class="tag">${item.type}</span>
-          </div>
-          <a href="${item.link}" target="_blank">Rantre</a>
+    <div id="app">
+        <h1>Byenveni nan Aplikasyon an</h1>
+          <div class="card">
+            <p>Isit la done aplikasyon w lan pral afiche.</p>
+            <input type="text" id="user-input" placeholder="Ekri yon bagay...">
+            <button onclick="fèAksyon()">Voye</button>
         </div>
-      `).join('');
+        <div id="output" style="margin-top: 15px; font-weight: bold;"></div>
+    </div>
+        <script>
+        function fèAksyon() {
+            const inputVal = document.getElementById('user-input').value;
+            const outputDiv = document.getElementById('output');
+            
+            if (inputVal.trim() !== "") {
+                outputDiv.style.color = "green";
+                outputDiv.innerText = "Ou ekri: " + inputVal;
+            } else {
+                outputDiv.style.color = "red";
+                outputDiv.innerText = "Tanpri ekri yon bagay anvan ou voye l!";
+            }
+        }
+    </script>
+</body>
+</html>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 70%, #764ba2 100%);
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
     }
+    #app {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+    h1 {
+        color: #4a5568;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border: 1px solid #cbd5e0;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 16px;
+    }
+    button {
+        background-color: #667eea;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+    button:hover {
+        background-color: #5a67d8;
+    }
+</style>
+// Mete kòd sa a anndan fonksyon ou yo oswa ajou nan script la
+let lisDone = JSON.parse(localStorage.getItem('itilizate_done')) || [];
 
-    // Fonksyon pou anregistre yon nouvo chanèl
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const title = document.getElementById('title').value;
-      const link = document.getElementById('link').value;
-      const type = document.getElementById('type').value;
-
-      const { error } = await supabase
-        .from('channels')
-        .insert([{ title, link, type }]);
-
-      if (error) {
-        alert('Erè nan anregistreman an: ' + error.message);
-      } else {
-        form.reset();
-        fetchChannels(); // Rafrechi lis la otomatikman
-      }
+function aficheLis() {
+    const outputDiv = document.getElementById('output');
+    if (lisDone.length === 0) {
+        outputDiv.innerHTML = "<p style='color: gray;'>Pa gen done anrejistre yet.</p>";
+        return;
+    }
+    
+    let html = "<ul style='list-style-type: none; padding: 0; margin-top: 10px;'>";
+    lisDone.forEach((item, index) => {
+        html += `<li style='background: #edf2f7; margin: 5px 0; padding: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;'>
+                    <span>${item}</span>
+                    <button onclick='siprimeDone(${index})' style='background: #e53e3e; padding: 2px 8px; font-size: 12px;'>X</button>
+                 </li>`;
     });
+    html += "</ul>";
+    outputDiv.innerHTML = html;
+}
 
-    // Chaje lis la depi paj la louvri
-    fetchChannels();
-  </script>
+function siprimeDone(index) {
+    lisDone.splice(index, 1);
+    localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
+    aficheLis();
+}
 
+// Modifye fonksyon fèAksyon pou anrejistre done yo
+function fèAksyon() {
+    const inputVal = document.getElementById('user-input').value;
+    
+    if (inputVal.trim() !== "") {
+        lisDone.push(inputVal);
+        localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
+        document.getElementById('user-input').value = "";
+        aficheLis();
+    } else {
+        alert("Tanpri ekri yon bagay anvan ou voye l!");
+    }
+}
+
+// Afiche done yo lè paj la chaje
+window.onload = aficheLis;
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasyon Mwen</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 70%, #764ba2 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #app {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #4a5568;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        button:hover {
+            background-color: #5a67d8;
+        }
+        #output {
+            margin-top: 15px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Byenveni nan Aplikasyon an</h1>
+        <div class="card">
+            <p>Isit la done aplikasyon w lan pral afiche.</p>
+            <input type="text" id="user-input" placeholder="Ekri yon bagay...">
+            <button onclick="fèAksyon()">Voye</button>
+        </div>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        let lisDone = JSON.parse(localStorage.getItem('itilizate_done')) || [];
+
+        function aficheLis() {
+            const outputDiv = document.getElementById('output');
+            if (lisDone.length === 0) {
+                outputDiv.innerHTML = "<p style='color: gray; text-align: center;'>Pa gen done anrejistre yet.</p>";
+                return;
+            }
+            
+            let html = "<ul style='list-style-type: none; padding: 0; margin-top: 10px;'>";
+            lisDone.forEach((item, index) => {
+                html += `<li style='background: #edf2f7; margin: 5px 0; padding: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;'>
+                            <span>${item}</span>
+                            <button onclick='siprimeDone(${index})' style='background: #e53e3e; padding: 2px 8px; font-size: 12px;'>X</button>
+                         </li>`;
+            });
+            html += "</ul>";
+            outputDiv.innerHTML = html;
+        }
+
+        function siprimeDone(index) {
+            lisDone.splice(index, 1);
+            localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
+            aficheLis();
+        }
+
+        function fèAksyon() {
+            const inputVal = document.getElementById('user-input').value;
+            
+            if (inputVal.trim() !== "") {
+                lisDone.push(inputVal);
+                localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
+                document.getElementById('user-input').value = "";
+                aficheLis();
+            } else {
+                alert("Tanpri ekri yon bagay anvan ou voye l!");
+            }
+        }
+
+        window.onload = aficheLis;
+    </script>
 </body>
 </html>
