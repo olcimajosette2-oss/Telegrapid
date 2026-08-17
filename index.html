@@ -512,3 +512,31 @@ window.onload = aficheLis;
             <button onclick="chanjeModpas()">Mete ajou modpas</button>
             <span class="toggle-link" onclick="retounenLogin()">Tounen nan Koneksyon</span>
         </div>
+function montreBliyeModpas() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('forgot-section').classList.remove('hidden');
+        }
+
+        function retounenLogin() {
+            document.getElementById('forgot-section').classList.add('hidden');
+            document.getElementById('login-section').classList.remove('hidden');
+        }
+
+        function chanjeModpas() {
+            const email = document.getElementById('forgot-email').value;
+            const nouvoPass = document.getElementById('new-pass').value;
+            let soveKont = JSON.parse(localStorage.getItem('aktif_itilizate'));
+
+            if (soveKont && soveKont.email === email) {
+                if (nouvoPass.trim() !== "") {
+                    soveKont.pass = nouvoPass;
+                    localStorage.setItem('aktif_itilizate', JSON.stringify(soveKont));
+                    alert("Modpas ou chanje avèk siksè! Koulye a ou ka konekte ak nouvo modpas ou.");
+                    retounenLogin();
+                } else {
+                    alert("Tanpri antre yon nouvo modpas ki valab!");
+                }
+            } else {
+                alert("Imèl sa a pa koresponn ak okenn kont aktif!");
+            }
+        }
