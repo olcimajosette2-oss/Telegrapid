@@ -3,253 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasyon Mwen</title>
-    <style>
-        /* Estil de baz yo ap vini nan pwochen pati yo */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
-    </style>
-</head>
-<body>
-    <div id="app">
-        <h1>Byenveni nan Aplikasyon an</h1>
-          <div class="card">
-            <p>Isit la done aplikasyon w lan pral afiche.</p>
-            <input type="text" id="user-input" placeholder="Ekri yon bagay...">
-            <button onclick="fèAksyon()">Voye</button>
-        </div>
-        <div id="output" style="margin-top: 15px; font-weight: bold;"></div>
-    </div>
-        <script>
-        function fèAksyon() {
-            const inputVal = document.getElementById('user-input').value;
-            const outputDiv = document.getElementById('output');
-            
-            if (inputVal.trim() !== "") {
-                outputDiv.style.color = "green";
-                outputDiv.innerText = "Ou ekri: " + inputVal;
-            } else {
-                outputDiv.style.color = "red";
-                outputDiv.innerText = "Tanpri ekri yon bagay anvan ou voye l!";
-            }
-        }
-    </script>
-</body>
-</html>
-<style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 70%, #764ba2 100%);
-        color: #333;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    #app {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        width: 100%;
-        max-width: 400px;
-        text-align: center;
-    }
-    h1 {
-        color: #4a5568;
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-    input[type="text"] {
-        width: calc(100% - 20px);
-        padding: 10px;
-        border: 1px solid #cbd5e0;
-        border-radius: 6px;
-        margin-bottom: 15px;
-        font-size: 16px;
-    }
-    button {
-        background-color: #667eea;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
-    button:hover {
-        background-color: #5a67d8;
-    }
-</style>
-// Mete kòd sa a anndan fonksyon ou yo oswa ajou nan script la
-let lisDone = JSON.parse(localStorage.getItem('itilizate_done')) || [];
-
-function aficheLis() {
-    const outputDiv = document.getElementById('output');
-    if (lisDone.length === 0) {
-        outputDiv.innerHTML = "<p style='color: gray;'>Pa gen done anrejistre yet.</p>";
-        return;
-    }
-    
-    let html = "<ul style='list-style-type: none; padding: 0; margin-top: 10px;'>";
-    lisDone.forEach((item, index) => {
-        html += `<li style='background: #edf2f7; margin: 5px 0; padding: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;'>
-                    <span>${item}</span>
-                    <button onclick='siprimeDone(${index})' style='background: #e53e3e; padding: 2px 8px; font-size: 12px;'>X</button>
-                 </li>`;
-    });
-    html += "</ul>";
-    outputDiv.innerHTML = html;
-}
-
-function siprimeDone(index) {
-    lisDone.splice(index, 1);
-    localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
-    aficheLis();
-}
-
-// Modifye fonksyon fèAksyon pou anrejistre done yo
-function fèAksyon() {
-    const inputVal = document.getElementById('user-input').value;
-    
-    if (inputVal.trim() !== "") {
-        lisDone.push(inputVal);
-        localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
-        document.getElementById('user-input').value = "";
-        aficheLis();
-    } else {
-        alert("Tanpri ekri yon bagay anvan ou voye l!");
-    }
-}
-
-// Afiche done yo lè paj la chaje
-window.onload = aficheLis;
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasyon Mwen</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 70%, #764ba2 100%);
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        #app {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h1 {
-            color: #4a5568;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #667eea;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        button:hover {
-            background-color: #5a67d8;
-        }
-        #output {
-            margin-top: 15px;
-            text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-    </style>
-</head>
-<body>
-    <div id="app">
-        <h1>Byenveni nan Aplikasyon an</h1>
-        <div class="card">
-            <p>Isit la done aplikasyon w lan pral afiche.</p>
-            <input type="text" id="user-input" placeholder="Ekri yon bagay...">
-            <button onclick="fèAksyon()">Voye</button>
-        </div>
-        <div id="output"></div>
-    </div>
-
-    <script>
-        let lisDone = JSON.parse(localStorage.getItem('itilizate_done')) || [];
-
-        function aficheLis() {
-            const outputDiv = document.getElementById('output');
-            if (lisDone.length === 0) {
-                outputDiv.innerHTML = "<p style='color: gray; text-align: center;'>Pa gen done anrejistre yet.</p>";
-                return;
-            }
-            
-            let html = "<ul style='list-style-type: none; padding: 0; margin-top: 10px;'>";
-            lisDone.forEach((item, index) => {
-                html += `<li style='background: #edf2f7; margin: 5px 0; padding: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;'>
-                            <span>${item}</span>
-                            <button onclick='siprimeDone(${index})' style='background: #e53e3e; padding: 2px 8px; font-size: 12px;'>X</button>
-                         </li>`;
-            });
-            html += "</ul>";
-            outputDiv.innerHTML = html;
-        }
-
-        function siprimeDone(index) {
-            lisDone.splice(index, 1);
-            localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
-            aficheLis();
-        }
-
-        function fèAksyon() {
-            const inputVal = document.getElementById('user-input').value;
-            
-            if (inputVal.trim() !== "") {
-                lisDone.push(inputVal);
-                localStorage.setItem('itilizate_done', JSON.stringify(lisDone));
-                document.getElementById('user-input').value = "";
-                aficheLis();
-            } else {
-                alert("Tanpri ekri yon bagay anvan ou voye l!");
-            }
-        }
-
-        window.onload = aficheLis;
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegrapid - Aplikasyon Konplè</title>
     <style>
         body {
@@ -265,7 +18,6 @@ window.onload = aficheLis;
         
         .hidden { display: none !important; }
 
-        /* Estil pou Pòsyon Koneksyon / Anrejistreman */
         .auth-container {
             background: #2d3748;
             padding: 30px;
@@ -306,7 +58,6 @@ window.onload = aficheLis;
             font-size: 14px;
         }
 
-        /* Estil pou Aplikasyon Prensipal la (Apre Koneksyon) */
         #app {
             background: #ffffff;
             color: #333;
@@ -367,9 +118,7 @@ window.onload = aficheLis;
 </head>
 <body>
 
-    <!-- 1. PAJ KONEKSYON AK ANREJISTREMAN -->
     <div class="auth-container" id="auth-box">
-        <!-- Fòm Enskripsyon -->
         <div id="signup-section">
             <h2>Kreye yon Kont</h2>
             <input type="text" id="reg-name" placeholder="Non Itilizatè">
@@ -379,17 +128,24 @@ window.onload = aficheLis;
             <span class="toggle-link" onclick="chanjeFom()">Gen yon kont deja? Konekte w</span>
         </div>
 
-        <!-- Fòm Koneksyon -->
         <div id="login-section" class="hidden">
             <h2>Konekte</h2>
             <input type="email" id="log-email" placeholder="Imèl ou">
             <input type="password" id="log-pass" placeholder="Modpas">
             <button onclick="fèKoneksyon()">Antre</button>
+            <span class="toggle-link" onclick="montreBliyeModpas()" style="margin-top: 10px; font-size: 13px;">Mwen bliye modpas mwen?</span>
             <span class="toggle-link" onclick="chanjeFom()">Pa gen kont? Kreye yonn</span>
+        </div>
+
+        <div id="forgot-section" class="hidden">
+            <h2>Rekipere Modpas</h2>
+            <input type="email" id="forgot-email" placeholder="Antre imèl ou">
+            <input type="password" id="new-pass" placeholder="Nouvo modpas">
+            <button onclick="chanjeModpas()">Mete ajou modpas</button>
+            <span class="toggle-link" onclick="retounenLogin()">Tounen nan Koneksyon</span>
         </div>
     </div>
 
-    <!-- 2. PAJ PRENSIPAL APLIKASYON AN (Kache jiskaske itilizatè a konekte) -->
     <div id="app" class="hidden">
         <h1>Telegrapid</h1>
         <div id="welcome-user"></div>
@@ -403,13 +159,11 @@ window.onload = aficheLis;
     </div>
 
     <script>
-        // Fonksyon pou chanje ant Fòm Anskripsyon ak Fòm Koneksyon
         function chanjeFom() {
             document.getElementById('signup-section').classList.toggle('hidden');
             document.getElementById('login-section').classList.toggle('hidden');
         }
 
-        // Tcheke si yon itilizatè deja konekte lè paj la chaje
         window.onload = function() {
             let aktif = localStorage.getItem('itilizate_aktif');
             if (aktif) {
@@ -417,7 +171,6 @@ window.onload = aficheLis;
             }
         }
 
-        // Anrejistre nouvo kont
         function ankeREnskripsyon() {
             const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
@@ -433,7 +186,6 @@ window.onload = aficheLis;
             }
         }
 
-        // Fè koneksyon an
         function fèKoneksyon() {
             const email = document.getElementById('log-email').value;
             const pass = document.getElementById('log-pass').value;
@@ -447,7 +199,6 @@ window.onload = aficheLis;
             }
         }
 
-        // Montre koòdone aplikasyon an epi kache fòm login nan
         function montreAplikasyon(user) {
             document.getElementById('auth-box').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
@@ -455,13 +206,40 @@ window.onload = aficheLis;
             aficheLis();
         }
 
-        // Dekonekte
         function dekonekte() {
             localStorage.removeItem('itilizate_aktif');
             location.reload();
         }
 
-        // --- PATI JESTION DONE (Aplikasyon an) ---
+        function montreBliyeModpas() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('forgot-section').classList.remove('hidden');
+        }
+
+        function retounenLogin() {
+            document.getElementById('forgot-section').classList.add('hidden');
+            document.getElementById('login-section').classList.remove('hidden');
+        }
+
+        function chanjeModpas() {
+            const email = document.getElementById('forgot-email').value;
+            const nouvoPass = document.getElementById('new-pass').value;
+            let soveKont = JSON.parse(localStorage.getItem('aktif_itilizate'));
+
+            if (soveKont && soveKont.email === email) {
+                if (nouvoPass.trim() !== "") {
+                    soveKont.pass = nouvoPass;
+                    localStorage.setItem('aktif_itilizate', JSON.stringify(soveKont));
+                    alert("Modpas ou chanje avèk siksè! Koulye a ou ka konekte ak nouvo modpas ou.");
+                    retounenLogin();
+                } else {
+                    alert("Tanpri antre yon nouvo modpas ki valab!");
+                }
+            } else {
+                alert("Imèl sa a pa koresponn ak okenn kont aktif!");
+            }
+        }
+
         let lisDone = JSON.parse(localStorage.getItem('telegrapid_done')) || [];
 
         function aficheLis() {
@@ -503,40 +281,3 @@ window.onload = aficheLis;
     </script>
 </body>
 </html>
-     <span class="toggle-link" onclick="montreBliyeModpas()" style="margin-top: 10px; display: block; font-size: 13px;">Mwen bliye modpas mwen?</span>
-          <!-- Fòm Bliye Modpas -->
-        <div id="forgot-section" class="hidden">
-            <h2>Rekipere Modpas</h2>
-            <input type="email" id="forgot-email" placeholder="Antre imèl ou">
-            <input type="password" id="new-pass" placeholder="Nouvo modpas">
-            <button onclick="chanjeModpas()">Mete ajou modpas</button>
-            <span class="toggle-link" onclick="retounenLogin()">Tounen nan Koneksyon</span>
-        </div>
-function montreBliyeModpas() {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('forgot-section').classList.remove('hidden');
-        }
-
-        function retounenLogin() {
-            document.getElementById('forgot-section').classList.add('hidden');
-            document.getElementById('login-section').classList.remove('hidden');
-        }
-
-        function chanjeModpas() {
-            const email = document.getElementById('forgot-email').value;
-            const nouvoPass = document.getElementById('new-pass').value;
-            let soveKont = JSON.parse(localStorage.getItem('aktif_itilizate'));
-
-            if (soveKont && soveKont.email === email) {
-                if (nouvoPass.trim() !== "") {
-                    soveKont.pass = nouvoPass;
-                    localStorage.setItem('aktif_itilizate', JSON.stringify(soveKont));
-                    alert("Modpas ou chanje avèk siksè! Koulye a ou ka konekte ak nouvo modpas ou.");
-                    retounenLogin();
-                } else {
-                    alert("Tanpri antre yon nouvo modpas ki valab!");
-                }
-            } else {
-                alert("Imèl sa a pa koresponn ak okenn kont aktif!");
-            }
-        }
