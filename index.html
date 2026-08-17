@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegrapid - Aplikasyon Konplè</title>
+    <title>Telegrapid - Gwoup, Chanèl & Stickers</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,109 +15,78 @@
             min-height: 100vh;
             margin: 0;
         }
-        
         .hidden { display: none !important; }
-
-        .auth-container {
+        .auth-container, #app {
             background: #2d3748;
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             width: 100%;
-            max-width: 380px;
+            max-width: 450px;
             text-align: center;
+            box-sizing: border-box;
         }
-        .auth-container h2 { margin-bottom: 20px; color: #63b3ed; }
-        .auth-container input {
+        #app { background: #ffffff; color: #333; }
+        input, select {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
+            padding: 10px;
+            margin: 8px 0;
             background: #1a202c;
             border: 1px solid #4a5568;
             border-radius: 6px;
             color: #fff;
             box-sizing: border-box;
         }
-        .auth-container button {
+        #app input, #app select { background: #fff; color: #333; border: 1px solid #cbd5e0; }
+        button {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #3182ce;
             border: none;
             border-radius: 6px;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
         }
-        .auth-container button:hover { background: #2b6cb0; }
+        button:hover { background: #2b6cb0; }
         .toggle-link {
-            margin-top: 15px;
+            margin-top: 12px;
             display: block;
             color: #90cdf4;
             cursor: pointer;
             font-size: 14px;
         }
-
-        #app {
-            background: #ffffff;
-            color: #333;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-        }
-        #app h1 {
-            color: #4a5568;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        #welcome-user {
-            color: #3182ce;
-            font-size: 14px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        #app input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border: 1px solid #cbd5e0;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 16px;
-            background: #fff;
-            color: #333;
-        }
-        #app button.action-btn {
-            background-color: #667eea;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-        }
-        #app button.action-btn:hover {
-            background-color: #5a67d8;
-        }
-        #output {
+        #app .toggle-link { color: #3182ce; }
+        .section-box {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
             margin-top: 15px;
             text-align: left;
-            max-height: 200px;
+        }
+        .item-list {
+            margin-top: 10px;
+            max-height: 150px;
             overflow-y: auto;
         }
-        .logout-btn {
-            background: #e53e3e !important;
-            margin-top: 15px !important;
-            font-size: 14px !important;
-            padding: 8px !important;
+        .item-row {
+            background: #edf2f7;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
         }
+        .logout-btn { background: #e53e3e !important; margin-top: 15px; }
     </style>
 </head>
 <body>
 
+    <!-- 1. PAJ KONEKSYON -->
     <div class="auth-container" id="auth-box">
         <div id="signup-section">
             <h2>Kreye yon Kont</h2>
@@ -133,29 +102,47 @@
             <input type="email" id="log-email" placeholder="Imèl ou">
             <input type="password" id="log-pass" placeholder="Modpas">
             <button onclick="fèKoneksyon()">Antre</button>
-            <span class="toggle-link" onclick="montreBliyeModpas()" style="margin-top: 10px; font-size: 13px;">Mwen bliye modpas mwen?</span>
             <span class="toggle-link" onclick="chanjeFom()">Pa gen kont? Kreye yonn</span>
-        </div>
-
-        <div id="forgot-section" class="hidden">
-            <h2>Rekipere Modpas</h2>
-            <input type="email" id="forgot-email" placeholder="Antre imèl ou">
-            <input type="password" id="new-pass" placeholder="Nouvo modpas">
-            <button onclick="chanjeModpas()">Mete ajou modpas</button>
-            <span class="toggle-link" onclick="retounenLogin()">Tounen nan Koneksyon</span>
         </div>
     </div>
 
+    <!-- 2. PAJ PRENSIPAL -->
     <div id="app" class="hidden">
         <h1>Telegrapid</h1>
-        <div id="welcome-user"></div>
-        <div class="card">
-            <p>Ekri yon piblikasyon oswa yon mesaj:</p>
-            <input type="text" id="user-input" placeholder="Ekri yon bagay...">
-            <button class="action-btn" onclick="fèAksyon()">Voye</button>
+        <div id="welcome-user" style="color: #3182ce; font-weight: bold; margin-bottom: 10px;"></div>
+
+        <!-- Kreye Gwoup / Chanèl -->
+        <div class="section-box">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #2d3748;">Kreye Gwoup oswa Chanèl</h3>
+            <input type="text" id="space-name" placeholder="Non Gwoup oswa Chanèl...">
+            <select id="space-type">
+                <option value="gwoup">Gwoup</option>
+                <option value="chanel">Chanèl</option>
+            </select>
+            <button onclick="kreyeEspas()">Kreye l</button>
         </div>
-        <div id="output"></div>
-        <button class="action-btn logout-btn" onclick="dekonekte()">Dekonekte</button>
+
+        <!-- Lis Gwoup / Chanèl ki disponib -->
+        <div class="section-box">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #2d3748;">Espas yo</h3>
+            <div id="spaces-output" class="item-list"></div>
+        </div>
+
+        <!-- Piblikasyon ak Stickers -->
+        <div class="section-box">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #2d3748;">Pataje ak Reyaji</h3>
+            <input type="text" id="user-input" placeholder="Ekri yon post...">
+            <select id="sticker-select">
+                <option value="👍">👍 Thumbs Up</option>
+                <option value="❤️">❤️ Kè</option>
+                <option value="🔥">🔥 Dife</option>
+                <option value="😂">😂 Ri</option>
+            </select>
+            <button onclick="fèAksyon()">Voye Post ak Sticker</button>
+        </div>
+
+        <div id="output" class="item-list" style="margin-top: 15px;"></div>
+        <button class="logout-btn" onclick="dekonekte()">Dekonekte</button>
     </div>
 
     <script>
@@ -175,34 +162,30 @@
             const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
             const pass = document.getElementById('reg-pass').value;
-
             if(name && email && pass) {
                 let itilizate = { name, email, pass };
                 localStorage.setItem('aktif_itilizate', JSON.stringify(itilizate));
-                alert("Kont ou kreye avèk siksè! Koulye a ou ka konekte w.");
+                alert("Kont ou kreye avèk siksè!");
                 chanjeFom();
-            } else {
-                alert("Tanpri ranpli tout chan yo!");
-            }
+            } else { alert("Tanpri ranpli tout chan yo!"); }
         }
 
         function fèKoneksyon() {
             const email = document.getElementById('log-email').value;
             const pass = document.getElementById('log-pass').value;
             let soveKont = JSON.parse(localStorage.getItem('aktif_itilizate'));
-
             if(soveKont && soveKont.email === email && soveKont.pass === pass) {
                 localStorage.setItem('itilizate_aktif', JSON.stringify(soveKont));
                 montreAplikasyon(soveKont);
-            } else {
-                alert("Imèl ou oswa modpas ou pa kòrèk!");
-            }
+            } else { alert("Imèl oswa modpas pa kòrèk!"); }
         }
 
         function montreAplikasyon(user) {
             document.getElementById('auth-box').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
-            document.getElementById('welcome-user').innerText = "Byenveni, " + user.name + " (" + user.email + ")";
+            document.getElementById('welcome-userinnerText'] = "Byenveni, " + user.name;
+            document.getElementById('welcome-user').innerText = "Byenveni, " + user.name;
+            aficheEspas();
             aficheLis();
         }
 
@@ -211,52 +194,42 @@
             location.reload();
         }
 
-        function montreBliyeModpas() {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('forgot-section').classList.remove('hidden');
+        let lisEspas = JSON.parse(localStorage.getItem('telegrapid_espas')) || [];
+        function kreyeEspas() {
+            const name = document.getElementById('space-name').value;
+            const type = document.getElementById('space-type').value;
+            if(name.trim() !== "") {
+                lisEspas.push({ name, type });
+                localStorage.setItem('telegrapid_espas', JSON.stringify(lisEspas));
+                document.getElementById('space-name').value = "";
+                aficheEspas();
+            } else { alert("Antre non espas la!"); }
         }
 
-        function retounenLogin() {
-            document.getElementById('forgot-section').classList.add('hidden');
-            document.getElementById('login-section').classList.remove('hidden');
-        }
-
-        function chanjeModpas() {
-            const email = document.getElementById('forgot-email').value;
-            const nouvoPass = document.getElementById('new-pass').value;
-            let soveKont = JSON.parse(localStorage.getItem('aktif_itilizate'));
-
-            if (soveKont && soveKont.email === email) {
-                if (nouvoPass.trim() !== "") {
-                    soveKont.pass = nouvoPass;
-                    localStorage.setItem('aktif_itilizate', JSON.stringify(soveKont));
-                    alert("Modpas ou chanje avèk siksè! Koulye a ou ka konekte ak nouvo modpas ou.");
-                    retounenLogin();
-                } else {
-                    alert("Tanpri antre yon nouvo modpas ki valab!");
-                }
-            } else {
-                alert("Imèl sa a pa koresponn ak okenn kont aktif!");
-            }
+        function aficheEspas() {
+            const div = document.getElementById('spaces-output');
+            if(lisEspas.length === 0) { div.innerHTML = "<p style='color:gray; font-size:13px;'>Pa gen gwoup oswa chanèl ankò.</p>"; return; }
+            let html = "";
+            lisEspas.forEach(s => {
+                html += `<div class="item-row"><span><strong>[${s.type.toUpperCase()}]</strong> ${s.name}</span></div>`;
+            });
+            div.innerHTML = html;
         }
 
         let lisDone = JSON.parse(localStorage.getItem('telegrapid_done')) || [];
-
         function aficheLis() {
             const outputDiv = document.getElementById('output');
             if (lisDone.length === 0) {
-                outputDiv.innerHTML = "<p style='color: gray; text-align: center; margin-top:15px;'>Pa gen done anrejistre yet.</p>";
+                outputDiv.innerHTML = "<p style='color: gray; font-size:13px;'>Pa gen piblikasyon ankò.</p>";
                 return;
             }
-            
-            let html = "<ul style='list-style-type: none; padding: 0; margin-top: 15px;'>";
+            let html = "";
             lisDone.forEach((item, index) => {
-                html += `<li style='background: #edf2f7; margin: 8px 0; padding: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; color: #333;'>
-                            <span>${item}</span>
-                            <button onclick='siprimeDone(${index})' style='background: #e53e3e; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;'>X</button>
-                         </li>`;
+                html += `<div class="item-row">
+                            <span>${item.text} <b style="margin-left:5px;">${item.sticker}</b></span>
+                            <button onclick='siprimeDone(${index})' style='background: #e53e3e; color: white; border: none; padding: 2px 6px; border-radius: 3px; cursor: pointer; font-size: 11px; width:auto;'>X</button>
+                         </div>`;
             });
-            html += "</ul>";
             outputDiv.innerHTML = html;
         }
 
@@ -268,15 +241,13 @@
 
         function fèAksyon() {
             const inputVal = document.getElementById('user-input').value;
-            
+            const stickerVal = document.getElementById('sticker-select').value;
             if (inputVal.trim() !== "") {
-                lisDone.push(inputVal);
+                lisDone.push({ text: inputVal, sticker: stickerVal });
                 localStorage.setItem('telegrapid_done', JSON.stringify(lisDone));
                 document.getElementById('user-input').value = "";
                 aficheLis();
-            } else {
-                alert("Tanpri ekri yon bagay anvan ou voye l!");
-            }
+            } else { alert("Tanpri ekri yon post!"); }
         }
     </script>
 </body>
